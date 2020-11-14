@@ -3,12 +3,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const logger = require("morgan");
+
+// Import Routes
 const userRoute = require("./routes/userRoute");
 
 // Basic setup
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5555;
+const PORT = process.env.PORT || 5050;
 
 // Middlewares
 app.use(cors()); // enable cors
