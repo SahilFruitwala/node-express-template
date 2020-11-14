@@ -1,11 +1,11 @@
 const router = require("express").Router();
 const mongoose = require('mongoose')
 
-mongoose.connect(
-  `mongodb+srv://root:${process.env.DB_PASSWORD}@main.pgj2f.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  () => console.log("DB Connected!")
-);
+// mongoose.connect(
+//   `mongodb+srv://root:${process.env.DB_PASSWORD}@main.pgj2f.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+//   { useNewUrlParser: true, useUnifiedTopology: true },
+//   () => console.log("DB Connected!")
+// );
 
 router.get("/", (req, res) => {
   res.send("Template Done!!");

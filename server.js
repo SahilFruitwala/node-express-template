@@ -6,6 +6,7 @@ const logger = require("morgan");
 
 // Import Routes
 const userRoute = require("./routes/userRoute");
+const movieRoute = require("./routes/movieRoute");
 
 // Basic setup
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(logger("combined"));  // logger set-up
 
 // Endpoints
 app.use("/user", userRoute);
+app.use("/movie", movieRoute);
 
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
