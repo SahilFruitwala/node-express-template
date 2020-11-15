@@ -1,27 +1,34 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const logger = require("morgan");
+const mongoose = require('mongoose');
 
 // Import Routes
+const indexRoute = require("./routes/index");
 const userRoute = require("./routes/userRoute");
-const movieRoute = require("./routes/movieRoute");
+
+// Config
+dotenv.config();
+const DB = process.env.DB_URI;
 
 // Basic setup
-dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5050;
 
+mongoose.connect( DB,  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .then(() => console.log('Connected with db...'))
+  .catch(err => console.log('SOme Error Occurd...\n', err));
+
 // Middlewares
 app.use(cors()); // enable cors
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json()); // configure body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(logger("combined"));  // logger set-up
 
-// Endpoints
+// Routes
+app.use("/", indexRoute);
 app.use("/user", userRoute);
-app.use("/movie", movieRoute);
 
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));

@@ -1,26 +1,55 @@
 const router = require("express").Router();
-const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
-// mongoose.connect(
-//   `mongodb+srv://root:${process.env.DB_PASSWORD}@main.pgj2f.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
-//   { useNewUrlParser: true, useUnifiedTopology: true },
-//   () => console.log("DB Connected!")
-// );
+// Model
+const User = require('../model/UserModel');
 
-router.get("/", (req, res) => {
-  res.send("Template Done!!");
+// Login
+router.get("/login", (req, res) => {
+  res.send("Login Done!!");
 });
 
-router.post("/", (req, res) => {
-  res.send("Template Done!!");
+// Register
+router.post("/register", (req, res) => {
+  const {name, email, password, password2} = req.body;
+  let error = []
+
+  // check empty data 
+  if (!name || !email || !password || !password2) {
+    error.push({ msg:"Please submit all the data!"})
+  }
+  // match password
+  if (password !== password2) {
+    error.push({ msg: "Password does not match!" });
+  }
+
+  // validate password
+  if(password.length < 6) {
+    error.push({ msg: "Enter Valid password!" });
+  }
+
+  if (error.length > 0) {
+    res.json(error);
+  }
+  else{
+    User.findOne({email:email})
+    .then(user => {
+      if(user) {
+        res.json({ msg: "User Email Already Exists!" });
+      }
+      else {
+        const newUser = new User({
+          name,
+          email,
+          password
+        })
+        console.log(newUser);
+        res.send('hi')
+      }
+    })
+  }
+
 });
 
-router.put("/", (req, res) => {
-  res.send("Template Done!!");
-});
-
-router.delete("/", (req, res) => {
-  res.send("Template Done!!");
-});
 
 module.exports = router;

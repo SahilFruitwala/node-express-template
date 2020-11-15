@@ -4,11 +4,11 @@ const { v4: uuidv4 } = require("uuid");
 const Movie = require("../model/MovieModel");
 require("dotenv").config();
 
-mongoose.connect(
-  `mongodb+srv://root:${process.env.DB_PASS}@main.pgj2f.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
-  (eee) => console.log("DB Connected!", eee)
-);
+// mongoose.connect(
+//   `mongodb+srv://root:${process.env.DB_PASS}@main.pgj2f.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+//   { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+//   (eee) => console.log("DB Connected!", eee)
+// );
 
 router.get("/", async (req, res) => {
   try {
