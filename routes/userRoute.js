@@ -82,6 +82,7 @@ router.get("/logout", (req, res) => {
   } 
 );
 
+// Data 
 router.get("/data", ensureAuthenticate ,(err, res) => {
     res.json({msg:"Success!"})
 }
