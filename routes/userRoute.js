@@ -1,13 +1,11 @@
 const router = require("express").Router();
 const bcrypt = require('bcryptjs')
+const passport = require('passport');
+const {ensureAuthenticate} = require('../config/auth');
 
 // Model
 const User = require('../model/UserModel');
 
-// Login
-router.get("/login", (req, res) => {
-  res.send("Login Done!!");
-});
 
 // Register
 router.post("/register", (req, res) => {
@@ -43,13 +41,51 @@ router.post("/register", (req, res) => {
           email,
           password
         })
-        console.log(newUser);
-        res.send('hi')
+        // generate password hash
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if(err) throw err;
+            // save hash instead password
+            newUser.password = hash;
+            newUser.save()
+            .then(data => {
+              res.json({msg:"Regestration Success!"})
+            })
+            .catch(err => {
+              res.json({msg:"Error Occured!", error: err})
+            });
+          });
+        });
       }
     })
   }
 
 });
+
+// Login
+router.post("/login", passport.authenticate('local'), (req, res) => {
+
+  if(req.user) {
+    res.json({msg:"Authenticated"})
+    // console.log(req);
+    }
+    else{
+      res.json({ msg: "Not Authenticated" });
+    }
+  } 
+);
+
+// Logout
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.json({ msg: "Logout Success!" });
+  } 
+);
+
+router.get("/data", ensureAuthenticate ,(err, res) => {
+    res.json({msg:"Success!"})
+}
+);
 
 
 module.exports = router;
