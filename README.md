@@ -1,4 +1,4 @@
-# Suggest Me
+# NodeJs- Express Backenmd Template
 
 > #### The goal of this repository is to create template for REST API projects which uses node, mongodb, express and have user authentication.
 
